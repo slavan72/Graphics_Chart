@@ -28,21 +28,22 @@ namespace Graphics_Chart
             chart1.Series["cos(x)"].Points.Clear();
             chart1.Series[2].Points.Clear();
 
+            scaleGraphics(minPoint, maxPoint);
+
             if (checkBox1.Checked == true)
             {
-                for (x = minPoint; x < maxPoint; x+=step) {
-                    y = (float)Math.Sin(x);
-                    chart1.Series[0].Points.AddXY(x, y);
+                for (x = minPoint; x < maxPoint; x += step)
+                {
+                    chart1.Series[0].Points.AddXY(x, Math.Sin(x));
                 }
-                
+
             }
 
             if (checkBox2.Checked == true)
             {
                 for (x = minPoint; x < maxPoint; x += step)
                 {
-                    y = (float)Math.Cos(x);
-                    chart1.Series[0].Points.AddXY(x, y);
+                    chart1.Series[1].Points.AddXY(x, Math.Cos(x));
                 }
 
             }
@@ -51,11 +52,28 @@ namespace Graphics_Chart
             {
                 for (x = minPoint; x < maxPoint; x += step)
                 {
-                    y = (float)(Math.Sin(x) + Math.Cos(x));
-                    chart1.Series[0].Points.AddXY(x, y);
+                    chart1.Series[2].Points.AddXY(x, (Math.Sin(x) + Math.Cos(x)));
                 }
-
             }
+
         }
+
+        //масштабируем график
+        private void scaleGraphics(float minPoint, float maxPoint)
+        {
+            chart1.ChartAreas[0].AxisX.ScaleView.Zoom(minPoint, maxPoint);//диапазон масштабирования
+            chart1.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;//включение интервала масштабирования
+            chart1.ChartAreas[0].AxisX.ScaleView.Zoomable = true;//включение масштабирования
+            chart1.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;//полоса прокрутки
+
+            chart1.ChartAreas[0].AxisY.ScaleView.Zoom(-1, 1);
+            chart1.ChartAreas[0].CursorY.IsUserEnabled = true;
+            chart1.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            chart1.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+            chart1.ChartAreas[0].AxisY.ScrollBar.IsPositionedInside = true;//полоса прокрутки
+
+        }
+
     }
 }
